@@ -1,44 +1,80 @@
 package com.example.exhibitionstall.model
+import java.math.BigDecimal
 
-data class Product(
-    val id: String,
+
+
+data class User(
+    val id: Int,
     val name: String,
-    val price: Double,
-    val category: String,
-    val imageUrl: String = ""
+    val email: String,
+    val phone: String,
+    val registeredAt: String,
+    val cart: Cart?
 )
 
-
-data class DeliveryPartner(
-    val name: String,
-    val phoneNumber: String
+data class Cart(
+    val id: Int,
+    val userId: Int,
+    val createdAt: String,
+    val updatedAt: String,
+    val items: List<CartItem>
 )
 
-data class Order(
-    val id: String,
-    val items: List<Product>,
-    val status: String, // "Preparing", "Out for Delivery"
-    val estimatedArrival: String, // "12:30 PM"
-    val partner: DeliveryPartner
+data class CartItem(
+    val id: Int,
+    val cartId: Int,
+    val stallItem: StallItem,
+    val quantity: Int,
+    val addedAt: String
 )
+
 
 data class Stall(
     val id: Int,
     val name: String,
     val description: String,
-    val imageUrl: String, // Placeholder for drawable resource name
-    val category: Category,
-    val products: List<Product>
+    val location: String,
+    val rating: BigDecimal?,
+    val imageUrl: String?,
+    val items: List<StallItem>
 )
 
-enum class Category {
-    ALL,
-    TECHNOLOGY,
-    FOOD,
-    CLOTHING
-}
-
-data class CartItem(
-    val product: Product,
-    var quantity: Int
+data class StallItem(
+    val id: Int,
+    val stallId: Int,
+    val name: String,
+    val description: String,
+    val price: BigDecimal,
+    val available: Boolean,
+    val imageUrl: String?
 )
+
+
+data class Order(
+    val id: Int,
+    val userId: Int,
+    val stallId: Int,
+    val deliveryPartner: DeliveryPartner?,
+    val status: String,
+    val totalAmount: BigDecimal,
+    val placedAt: String,
+    val updatedAt: String,
+    val items: List<OrderItem>
+)
+
+data class OrderItem(
+    val id: Int,
+    val stallItem: StallItem,
+    val quantity: Int,
+    val price: BigDecimal
+)
+
+
+data class DeliveryPartner(
+    val id: Int,
+    val name: String,
+    val phone: String,
+    val email: String,
+    val assignedSince: String
+)
+
