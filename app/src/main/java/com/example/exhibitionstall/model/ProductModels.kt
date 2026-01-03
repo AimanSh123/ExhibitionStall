@@ -25,10 +25,18 @@ data class Order(
 data class Stall(
     val id: Int,
     val name: String,
-    val category: String,
+    val description: String,
+    val imageUrl: String, // Placeholder for drawable resource name
+    val category: Category,
     val products: List<Product>
 )
 
+enum class Category {
+    ALL,
+    TECHNOLOGY,
+    FOOD,
+    CLOTHING
+}
 
 data class CartItem(
     val product: Product,

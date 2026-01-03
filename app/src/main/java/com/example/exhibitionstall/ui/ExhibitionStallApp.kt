@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.exhibitionstall.ExhibitionViewModel
 import com.example.exhibitionstall.ui.screens.HomeScreen
+import com.example.exhibitionstall.ui.screens.OrdersScreen
 import com.example.exhibitionstall.ui.screens.StallDetailsScreen
 
 @Composable
@@ -21,6 +22,9 @@ fun ExhibitionStallApp() {
                 viewModel = viewModel,
                 onStallClick = { stallId ->
                     navController.navigate("stall/$stallId")
+                },
+                onOrdersClick = {
+                    navController.navigate("orders")
                 }
             )
         }
@@ -30,6 +34,19 @@ fun ExhibitionStallApp() {
 
             StallDetailsScreen(
                 stallId = id,
+                viewModel = viewModel,
+                onBack = {
+                    navController.navigate("home") {
+                        popUpTo("home") { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+
+        // ✅ Orders screen
+        composable("orders") {
+            OrdersScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() }
             )
