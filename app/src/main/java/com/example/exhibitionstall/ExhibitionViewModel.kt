@@ -31,6 +31,35 @@ class ExhibitionViewModel : ViewModel() {
         }
     }
 
+    fun removeFromCart(product: Product) {
+        _cart.update { currentCart ->
+            currentCart.mapNotNull { cartItem ->
+                if (cartItem.product.id == product.id) {
+                    if (cartItem.quantity > 1) {
+                        cartItem.copy(quantity = cartItem.quantity - 1)
+                    } else {
+                        null // remove item completely
+                    }
+                } else {
+                    cartItem
+                }
+            }
+        }
+    }
+
+    fun clearItem(product: Product) {
+        _cart.update { currentCart ->
+            currentCart.filterNot { it.product.id == product.id }
+        }
+    }
+
+    fun getTotalPrice(): Double {
+        return _cart.value.sumOf {
+            it.product.price * it.quantity
+        }
+    }
+
+
     fun getStallById(stallId: Int): Stall? {
         return _stalls.value.find { it.id == stallId }
     }

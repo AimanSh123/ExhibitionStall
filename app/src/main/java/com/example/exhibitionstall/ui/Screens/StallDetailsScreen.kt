@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +22,8 @@ import com.example.exhibitionstall.R
 fun StallDetailsScreen(
     stallId: Int,
     viewModel: ExhibitionViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onGoToCart: () -> Unit
 ) {
     val stall = viewModel.getStallById(stallId)
 
@@ -35,7 +37,15 @@ fun StallDetailsScreen(
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Browse Stalls"
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onGoToCart) {
+                        Icon(
+                            imageVector = Icons.Default.ShoppingCart,
+                            contentDescription = "Go to Cart"
                         )
                     }
                 }
@@ -75,7 +85,7 @@ fun StallDetailsScreen(
                             verticalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
 
-                            // 🔹 Title
+                            // 🔹 Product Name
                             Text(
                                 text = product.name,
                                 style = MaterialTheme.typography.titleLarge
@@ -88,10 +98,8 @@ fun StallDetailsScreen(
                                 color = MaterialTheme.colorScheme.primary
                             )
 
-                            // 🔹 Rating (static UI rating)
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
+                            // 🔹 Rating (static)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(
                                     text = "⭐ 4.5",
                                     style = MaterialTheme.typography.bodyMedium
